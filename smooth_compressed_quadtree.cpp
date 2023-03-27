@@ -2,6 +2,8 @@
 #include <vector>
 # include <cmath>
 # include <fstream>
+#include <string>
+#include <sstream>
 using namespace std;
 const int MAX_CAPACITY = 4;
 const int MAX_DEPTH = 5;
@@ -205,18 +207,29 @@ return smooth;
 int main() {
 Rectangle boundary(-100, -100, 200, 200);
 Quadtree qt(boundary);
-// std::string line;
-//     std::ifstream file("points.txt");
-//     if (file.is_open()) {
-//         while (getline(file, line)) {
-//             std::cout << line << std::endl;
-//         }
-//         file.close();
-//     } 
-qt.insert(Point(1, 2,0.0));
-qt.insert(Point(-3, 4,10.0));
-qt.insert(Point(10, 20,2.0));
-qt.insert(Point(-30, -40,7.0));
+std::string line;
+    std::ifstream file("points.txt");
+    if (file.is_open()) {
+        while (getline(file, line)) {
+            //std::cout << line << std::endl;
+            std::istringstream iss(line);
+    
+    // vector to store the words
+    std::vector<std::string> words;
+    
+    // read the words from the stringstream
+    std::string word;
+    while (iss >> word) {
+        words.push_back(word);
+    }
+    qt.insert(Point(stoi(words[0]), stoi(words[1]),stod(words[2])));
+        }
+        file.close();
+    } 
+// qt.insert(Point(1, 2,0.0));
+// qt.insert(Point(-3, 4,10.0));
+// qt.insert(Point(10, 20,2.0));
+// qt.insert(Point(-30, -40,7.0));
 std::vector<Point> found;
 Rectangle range(-5, -5, 10, 10);
 qt.query(range, found);
